@@ -1,7 +1,7 @@
 //setup logger
-import '../lib/winston-helper';
+import '../../../lildata.hack-click-plugin/lib/winston-helper';
 
 export default {
-  epic: require('../epic'),
+  epic: require('./epic'),
   epicBulk: require('./epic-bulk')
 };
