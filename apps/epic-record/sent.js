@@ -78,21 +78,25 @@ const getEpicInterconnectLogSlim = () => {
       const sortedLog = _.sortBy(d.log, d => -d.dateProcessed);
       const found = _.find(sortedLog, d => d.action == 'epic-check');
       const epicCheck = JSON.parse(found.status);
-
-      const r = {};
-      r['id'] = parentIdHelper.parse(d.sourceObjectID);
-      r['id'] = parentIdHelper.parse(epicCheck['crms'][0].id);
-
       const dateProcessed = new Date(d.dateProcessed).toISOString();
-      r.date = dateProcessed.slice(0,10);
-      r.time = dateProcessed.slice(11,19);      
-      r.crms = epicCheck['crms'][0];
-      r.rnumber = epicCheck['rnumber'][0];
-      r.rnumber['focus'] = r.rnumber['name'];
-      delete r.rnumber['name'];
-      r.irb = epicCheck['irb'][0];
-      r.dateProcessed = d.dateProcessed;
-      return r;
+      
+      let [rnumber] = epicCheck['rnumber'];
+      let [crms] = epicCheck['crms'];
+      let [irb] = epicCheck['irb'];
+      let id = parentIdHelper.parse(crms.id);
+
+      rnumber.focus = runumber.name;
+      delete rnumber.name;
+
+      return {
+        id,
+        date: dateProcessed.slice(0,10),
+        time: dateProcessed.slice(11,19),
+        crms,
+        rnumber,
+        irb,
+        dateProcessed
+      };
     });
 
     //Shuffle by clinical trial id
