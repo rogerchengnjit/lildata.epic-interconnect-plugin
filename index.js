@@ -1,3 +1,1 @@
-require('babel-register');
-
-module.exports = require(__dirname+'/apps');
+export { EpicInterconectStudy, EpicInterconnectPatient } from './lib';
