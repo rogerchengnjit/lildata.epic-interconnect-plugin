@@ -205,7 +205,7 @@ const getEpicInterconnectComplete = callback => {
     },
     sent(next) {
       mongoDb.collection('epicinterconnectresponses')
-        .find({action: { $regex: 'retrieveprotocoldefresponse', $options: 'i' } } ,{id: 1, dateCreated:1,statusCode:1,"context.id": 1,"context.studyCharacteristics": 1,"context.title": 1,"context.text": 1, "context.classCode": 1, "context.moodCode": 1, "context.action": 1,request:1, response: 1 })
+        .aggregate({$match:{action: { $regex: 'retrieveprotocoldefresponse', $options: 'i' }} } ,{$project{id: 1, dateCreated:1,statusCode:1,"context.id": 1,"context.studyCharacteristics": 1,"context.title": {$concat:["$context.title","-","$context.id"]},"context.text": 1, "context.classCode": 1, "context.moodCode": 1, "context.action": 1,request:1, response: 1 }})
         .toArray((err, results) => {
           next(null, results);
         });
